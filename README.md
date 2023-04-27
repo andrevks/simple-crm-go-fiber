@@ -1,5 +1,3 @@
-# simple-crm-go-fiber
-
 # Simple CRM Go Fiber
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/andrevks/simple-crm-go-fiber?style=flat-square)
