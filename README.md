@@ -37,9 +37,6 @@ go run main.go
 * `POST /api/v1/users` - Create a new user
 * `DELETE /api/v1/users/:id` - Delete a user by ID
 
-## Contributing
-
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for more information.
 
 ## License
 
