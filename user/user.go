@@ -1,58 +1,43 @@
 package user
 
 import(
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	"github.com/andrevks/simple-crm-go-fiber/database"
 	"github.com/gofiber/fiber/v2"
+	"github.com/andrevks/simple-crm-go-fiber/models"
 )
  
-type User struct {
-	gorm.Model
-	Name				string	`json:"name"`
-	Company			string  `json:"company"`
-	Email				string  `json:"email"`
-	Phone				int 		`json:"phone"`
-}
-
 
 func GetUsers(c *fiber.Ctx) error {
-	db := database.DBConn
-	var users []User
-	db.Find(&users)
+	var users []models.User
+	database.FindAll(&users, "id DESC") 
 	return c.JSON(users)
 }
 
 func GetUser(c *fiber.Ctx)error {
 	id := c.Params("id")
-	db := database.DBConn
-	var user User 
-	db.Find(&user, id)
+	var user models.User 
+	database.Find(&user, id)
 	return c.JSON(user)
 }
 
 func NewUser(c *fiber.Ctx) error{
-	db := database.DBConn
-	user := new(User)
+	user := new(models.User)
 	if err := c.BodyParser(user); err != nil {
 		return c.Status(503).Send([]byte(err.Error()))
-		 
 	}
-
-	db.Create(&user)
+	database.Create(user)
 	return c.JSON(user)
 }
 
 
 func DeleteUser(c *fiber.Ctx) error {
 	id := c.Params("id")
-	db := database.DBConn
-	var user User
-	db.First(&user, id)
+	var user models.User
+	database.Find(&user, id)
 	if user.Name == "" {
 		return c.Status(500).Send([]byte("No lead found with ID"))
 	}
-
-	db.Delete(&user)
+	database.Delete(&user,id)
 	return c.SendStatus(204)
 }
